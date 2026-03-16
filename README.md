@@ -33,4 +33,56 @@ single-character operators to avoid incorrect tokenization.
 | `TinyJava.jflex` | JFlex specification: regex rules defining all token categories |
 | `TinyJavaLexer.java` | Generated lexer (produced by running JFlex on the spec file) |
 | `TinyJavaLex.java` | Driver: reads source from stdin, invokes the lexer, prints tokens |
-| `Symbol.java` | Defines the EOF constant used by the
+| `Symbol.java` | Defines the EOF constant used by the driver |
+| `tests/` | Six TinyJava test programs (Test1.java through Test6.java) |
+
+---
+
+## Build and Run
+
+### Requirements
+- JFlex 1.9+
+- Java CUP runtime (`java-cup-11b-runtime.jar`)
+- JDK 11+
+
+### Generate the lexer from the spec
+```bash
+jflex TinyJava.jflex
+```
+
+### Compile
+```bash
+javac -cp java-cup-11b-runtime.jar *.java
+```
+
+### Run
+```bash
+java -cp .:java-cup-11b-runtime.jar TinyJavaLex < tests/Test1.java
+```
+
+On Windows replace `:` with `;` in the classpath.
+
+---
+
+## Sample Output Format
+```
+Source Program
+--------------
+
+import java.util.*;
+class Hello { ... }
+
+List of Tokens
+--------------
+
+(keyword, import)
+(keyword, java)
+(punctuation, .)
+(keyword, util)
+(punctuation, .)
+(operator, *)
+(punctuation, ;)
+(keyword, class)
+(id, Hello)
+...
+```
